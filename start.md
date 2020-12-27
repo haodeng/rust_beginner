@@ -12,6 +12,8 @@ rustup self uninstall
 # Cargo
 cargo --version
 
+cargo new test_project
+
 cargo build
 
 cargo run
