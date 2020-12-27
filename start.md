@@ -3,7 +3,11 @@ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 
 rustc --version
 
+rustup update
+
 rustc main.rs # compile
+
+rustup self uninstall
 
 # Cargo
 cargo --version
