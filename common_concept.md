@@ -42,3 +42,24 @@ But shadowing is fine, same variable name but has different data types
 
 Each signed variant can store numbers from -2^(n - 1) to 2^(n - 1) - 1 inclusive, Unsigned variants can store numbers from 0 to 2^n - 1.
 the isize and usize types depend on the kind of computer your program is running on: 64 bits if you’re on a 64-bit architecture and 32 bits if you’re on a 32-bit architecture.
+
+## Other types
+check data_type.rs
+
+# Function
+Use snake case
+
+    fn another_function() {
+        println!("Another function.");
+    }
+
+## Function Parameter
+
+    fn main() {
+        another_function(5, 6);
+    }
+
+    fn another_function(x: i32, y: i32) {
+        println!("The value of x is: {}", x);
+        println!("The value of y is: {}", y);
+    }
