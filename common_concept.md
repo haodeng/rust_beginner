@@ -68,7 +68,7 @@ Use snake case
 Statements are instructions that perform some action and do not return a value. Expressions evaluate to a resulting value. 
 
     let y = 6; // statement
-    let x = (let y = 6); // Wrong! Statements do not return values. Therefore, you can’t assign a let statement to another variable
+    let x = (let y = 6); // Wrong! Statements do not return values. You can’t assign a let statement to another variable
 
 Expressions evaluate to something and make up most of the rest of the code.
 Expressions can be part of statements: the 6 in the statement let y = 6; is an expression that evaluates to the value 6. Calling a function is an expression. Calling a macro is an expression. The block that we use to create new scopes, {}, is an expression
@@ -79,3 +79,20 @@ Expressions can be part of statements: the 6 in the statement let y = 6; is an e
         let x = 3;
         x + 1
     }; // The block is an expresion, evaluates to 4. x + 1 has no semicolon to the end
+
+## Functions with Return Values
+
+    fn five() -> i32 {
+        5 //Expresion, evaluates to 5, no semicolon to the end. If add semicolon (changing it from an expression to a statement), compile Error
+    }
+    
+    fn plus_one(x: i32) -> i32 {
+        x + 1
+    }
+
+    fn main() {
+        let x = five();
+        let y = plus_one(5);
+
+        println!("The value of x is: {}", x);
+    }
