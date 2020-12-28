@@ -63,3 +63,19 @@ Use snake case
         println!("The value of x is: {}", x);
         println!("The value of y is: {}", y);
     }
+
+## Statements and Expressions
+Statements are instructions that perform some action and do not return a value. Expressions evaluate to a resulting value. 
+
+    let y = 6; // statement
+    let x = (let y = 6); // Wrong! Statements do not return values. Therefore, you can’t assign a let statement to another variable
+
+Expressions evaluate to something and make up most of the rest of the code.
+Expressions can be part of statements: the 6 in the statement let y = 6; is an expression that evaluates to the value 6. Calling a function is an expression. Calling a macro is an expression. The block that we use to create new scopes, {}, is an expression
+
+    let x = 5;
+
+    let y = {
+        let x = 3;
+        x + 1
+    }; // The block is an expresion, evaluates to 4. x + 1 has no semicolon to the end
