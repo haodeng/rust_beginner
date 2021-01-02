@@ -39,3 +39,9 @@ With the String type, in order to support a mutable, growable piece of text, we 
 
 * The memory must be requested from the memory allocator at runtime. String::from, its implementation requests the memory it needs.
 * We need a way of returning this memory to the allocator when we’re done with our String.
+
+
+Some language use GC, some have to manually allocate and deallocate it. Rust takes a different approach: the memory is automatically returned once the variable that owns it goes out of scope. 
+When a variable goes out of scope, Rust calls a special function for us. This function is called drop.
+
+
