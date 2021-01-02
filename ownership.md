@@ -12,3 +12,8 @@ Allocating a large amount of space on the heap can also take time.
 
 Keeping track of what parts of code are using what data on the heap, minimizing the amount of duplicate data on the heap, 
 and cleaning up unused data on the heap so you don’t run out of space are all problems that ownership addresses.
+
+# Ownership rules
+    Each value in Rust has a variable that’s called its owner.
+    There can only be one owner at a time.
+    When the owner goes out of scope, the value will be dropped.
