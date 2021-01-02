@@ -15,6 +15,14 @@ and cleaning up unused data on the heap so you don’t run out of space are all 
 
 All primitive data types are on the stack, String is on heap.
 
+
+# Ownership rules
+* Each value in Rust has a variable that’s called its owner.
+* There can only be one owner at a time.
+* When the owner goes out of scope, the value will be dropped.
+
+
+# Memory and Allocation
 Why can String be mutated but literals cannot? The difference is how these two types deal with memory.
 
     let mut s = String::from("hello"); // This type is allocated on the heap and as such is able to store an amount of text that is unknown to us at compile time. 
@@ -23,10 +31,6 @@ Why can String be mutated but literals cannot? The difference is how these two t
     
     let s2 = "hello"; // immutable, can not "mut" it
 
-
-# Ownership rules
-* Each value in Rust has a variable that’s called its owner.
-* There can only be one owner at a time.
-* When the owner goes out of scope, the value will be dropped.
-
-
+In the case of a string literal, we know the contents at compile time, so the text is hardcoded directly into the final executable. 
+This is why string literals are fast and efficient. 
+But these properties only come from the string literal’s immutability. 
