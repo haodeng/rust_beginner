@@ -37,5 +37,5 @@ But these properties only come from the string literal’s immutability.
 
 With the String type, in order to support a mutable, growable piece of text, we need to allocate an amount of memory on the heap, unknown at compile time, to hold the contents. This means:
 
-* The memory must be requested from the memory allocator at runtime.
+* The memory must be requested from the memory allocator at runtime. String::from, its implementation requests the memory it needs.
 * We need a way of returning this memory to the allocator when we’re done with our String.
