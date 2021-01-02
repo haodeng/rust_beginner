@@ -34,3 +34,8 @@ Why can String be mutated but literals cannot? The difference is how these two t
 In the case of a string literal, we know the contents at compile time, so the text is hardcoded directly into the final executable. 
 This is why string literals are fast and efficient. 
 But these properties only come from the string literal’s immutability. 
+
+With the String type, in order to support a mutable, growable piece of text, we need to allocate an amount of memory on the heap, unknown at compile time, to hold the contents. This means:
+
+* The memory must be requested from the memory allocator at runtime.
+* We need a way of returning this memory to the allocator when we’re done with our String.
