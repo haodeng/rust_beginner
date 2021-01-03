@@ -44,4 +44,23 @@ With the String type, in order to support a mutable, growable piece of text, we 
 Some language use GC, some have to manually allocate and deallocate it. Rust takes a different approach: the memory is automatically returned once the variable that owns it goes out of scope. 
 When a variable goes out of scope, Rust calls a special function for us. This function is called drop.
 
+## Move
+
+    let s1 = String::from("hello");
+    let s2 = s1;
+
+    println!("{}, world!", s1);  // error[E0382]: borrow of moved value: `s1`
+
+Rust considers s1 to no longer be valid and, therefore, Rust doesn’t need to free anything when s1 goes out of scope. 
+Rust also invalidates the first variable, instead of being called a shallow copy, it’s known as a move. 
+Rust will never automatically create “deep” copies of your data.
+
+## Clone
+
+If we do want to deeply copy the heap data of the String, not just the stack data, we can use a common method called clone.
+
+    let s1 = String::from("hello");
+    let s2 = s1.clone();
+
+    println!("s1 = {}, s2 = {}", s1, s2); // This works, the heap data does get copied.
 
