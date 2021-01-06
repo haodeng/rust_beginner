@@ -64,3 +64,76 @@ If we do want to deeply copy the heap data of the String, not just the stack dat
 
     println!("s1 = {}, s2 = {}", s1, s2); // This works, the heap data does get copied.
 
+
+# Reference
+
+    let s1 = String::from("hello");
+    let len = calculate_length(&s1); // The &s1 syntax lets us create a reference that refers to the value of s1 but does not own it.
+
+the signature of the function uses & to indicate that the type of the parameter s is a reference.
+    
+    fn calculate_length(s: &String) -> usize { // s is a reference to a String
+        s.len()
+    } // Here, s goes out of scope. But because it does not have ownership of what
+    // it refers to, nothing happens.
+
+we don’t drop what the reference points to when it goes out of scope because we don’t have ownership.
+
+We call having references as function parameters borrowing. try to modify something we’re borrowing? it doesn’t work!
+
+    fn main() {
+    let s = String::from("hello");
+        change(&s);
+    }
+
+    fn change(some_string: &String) {
+        some_string.push_str(", world"); // error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` reference
+    }
+
+
+## Mutable Reference
+This works.
+
+    fn main() {
+    let mut s = String::from("hello");
+        change(&mut s);
+    }
+
+    fn change(some_string: &mut String) {
+        some_string.push_str(", world");
+    }
+
+But mutable references have one big restriction: you can have only one mutable reference to a particular piece of data in a particular scope. 
+The benefit of having this restriction is that Rust can prevent data races at compile time.
+
+    let mut s = String::from("hello");
+
+    let r1 = &mut s;
+    let r2 = &mut s; // error[E0499]: cannot borrow `s` as mutable more than once at a time
+
+    println!("{}, {}", r1, r2);
+
+A similar rule exists for combining mutable and immutable references.
+
+    let mut s = String::from("hello");
+
+    let r1 = &s; // no problem
+    let r2 = &s; // no problem
+    let r3 = &mut s; // BIG PROBLEM, error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
+
+    println!("{}, {}, and {}", r1, r2, r3);
+
+But this code will compile because the last usage of the immutable references occurs before the mutable reference is introduced
+     
+    let mut s = String::from("hello");
+
+    let r1 = &s; // no problem
+    let r2 = &s; // no problem
+    println!("{} and {}", r1, r2);
+    // r1 and r2 are no longer used after this point
+
+    let r3 = &mut s; // no problem
+    println!("{}", r3);
+## The Rules of References
+* At any given time, you can have either one mutable reference or any number of immutable references.
+* References must always be valid.
