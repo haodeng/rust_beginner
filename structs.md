@@ -1,5 +1,5 @@
 # Structs
-
+## Defining and Instantiating Structs
     struct User {
         username: String,
         email: String,
@@ -30,7 +30,30 @@ To set value, struct need to be mutable
 
     user1.email = String::from("anotheremail@example.com");
 
-Creating Instances From Other Instances With Struct Update Syntax
+## Using the Field Init Shorthand when Variables and Fields Have the Same Name
+
+    // having to repeat the email and username field names and variables is a bit tedious.
+    // there’s a convenient shorthand!
+    fn build_user(email: String, username: String) -> User {
+        User {
+            email: email,
+            username: username,
+            active: true,
+            sign_in_count: 1,
+        }
+    }
+
+    fn build_user_simple(email: String, username: String) -> User {
+        User {
+            // Because the email field and the email parameter have the same name, we only need to write email rather than email: email
+            email,
+            username,
+            active: true,
+            sign_in_count: 1,
+        }
+    }
+    
+## Creating Instances From Other Instances With Struct Update Syntax
 
     let user5 = User {
         email: String::from("another5@example.com"),
