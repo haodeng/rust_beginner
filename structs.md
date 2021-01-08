@@ -29,3 +29,20 @@ To set value, struct need to be mutable
     };
 
     user1.email = String::from("anotheremail@example.com");
+
+Creating Instances From Other Instances With Struct Update Syntax
+
+    let user5 = User {
+        email: String::from("another5@example.com"),
+        username: String::from("anotherusername5"),
+        active: user1.active,
+        sign_in_count: user1.sign_in_count,
+    };
+    
+    // The syntax .. specifies that the remaining fields not explicitly set
+    // should have the same value as the fields in the given instance.
+    let user6 = User {
+        email: String::from("another6@example.com"),
+        username: String::from("anotherusername6"),
+        ..user1
+    };
