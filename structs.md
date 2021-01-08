@@ -69,3 +69,12 @@ To set value, struct need to be mutable
         username: String::from("anotherusername6"),
         ..user1
     };
+
+# Tuple structs
+Tuple structs are useful when you want to give the whole tuple a name and make the tuple be a different type from other tuples
+
+    struct Color(i32, i32, i32);
+    struct Point(i32, i32, i32);
+    // black and origin values are different types, because they’re instances of different tuple structs
+    let black = Color(0, 0, 0);
+    let origin = Point(0, 0, 0);
