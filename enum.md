@@ -29,3 +29,40 @@
         address: String::from("::1"),
     };
 
+We can represent the same concept in a more concise way using just an enum, rather than an enum inside a struct, by putting data directly into each enum variant.
+
+    enum IpAddr {
+        V4(String),
+        V6(String),
+    }
+
+    let home = IpAddr::V4(String::from("127.0.0.1"));
+
+    let loopback = IpAddr::V6(String::from("::1"));
+
+There’s another advantage to using an enum rather than a struct: each variant can have different types and amounts of associated data. 
+
+    enum IpAddr {
+        V4(u8, u8, u8, u8),
+        V6(String),
+    }
+
+    let home = IpAddr::V4(127, 0, 0, 1);
+
+    let loopback = IpAddr::V6(String::from("::1"));
+    
+
+# The Option Enum
+This enum is Option<T>, and it is defined by the standard library as follows:
+
+    enum Option<T> {
+        Some(T),
+        None,
+    }
+
+<T> means the Some variant of the Option enum can hold one piece of data of any type.
+    
+    let some_number = Some(5);
+    let some_string = Some("a string");
+
+    let absent_number: Option<i32> = None;
