@@ -78,3 +78,39 @@ Tuple structs are useful when you want to give the whole tuple a name and make t
     // black and origin values are different types, because they’re instances of different tuple structs
     let black = Color(0, 0, 0);
     let origin = Point(0, 0, 0);
+
+
+# Print Debug info
+add the annotation #[derive(Debug)] just before the struct definition
+
+    // print out debugging information
+    #[derive(Debug)]
+    struct Rectangle {
+        width: u32,
+        height: u32,
+    }
+
+    fn main() {
+        let rect1 = Rectangle {
+            width: 30,
+            height: 50,
+        };
+
+        println!("rect1 is {:?}", rect1); // debug info. `{:?}` (or {:#?} for pretty-print)
+    }
+
+# Define Methods
+To define the function within the context of Rectangle, we start an impl (implementation) block.
+
+    struct Rectangle {
+        width: u32,
+        height: u32,
+    }
+
+    impl Rectangle {
+        fn area(&self) -> u32 {
+            self.width * self.height
+        }
+    }
+    
+
