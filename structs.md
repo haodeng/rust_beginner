@@ -113,4 +113,15 @@ To define the function within the context of Rectangle, we start an impl (implem
         }
     }
     
+# Associated Functions
+They don’t take self as a parameter. They’re still functions, not methods, because they don’t have an instance of the struct to work with.
+To call this associated function, we use the :: syntax with the struct name; let sq = Rectangle::square(3); is an example.
 
+    impl Rectangle {
+        fn square(size: u32) -> Rectangle {
+            Rectangle {
+                width: size,
+                height: size,
+            }
+        }
+    }
