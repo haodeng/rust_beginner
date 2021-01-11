@@ -99,3 +99,16 @@ When the match expression executes, it compares the resulting value against the 
     let six = plus_one(five);
     let none = plus_one(None);
     
+## The _ Placeholder
+we don’t want to have to list out 0,1,2,3 all the way up to 255. we can use the special pattern _ instead. 
+The _ pattern will match any value.
+
+    let some_u8_value = 0u8;
+    match some_u8_value {
+        1 => println!("one"),
+        3 => println!("three"),
+        5 => println!("five"),
+        7 => println!("seven"),
+        // The () is just the unit value, so nothing will happen in the _ case.
+        _ => (),
+    }
