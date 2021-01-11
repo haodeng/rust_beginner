@@ -112,3 +112,35 @@ The _ pattern will match any value.
         // The () is just the unit value, so nothing will happen in the _ case.
         _ => (),
     }
+
+## Concise Control Flow with if let
+
+    if let Some(3) = some_u8_value {
+        println!("three");
+    }
+
+    // we could write this in a shorter way using if let. The following code behaves the same
+    // The syntax if let takes a pattern and an expression separated by an equal sign. It works the same way as a match
+    // Using if let means less typing, less indentation, and less boilerplate code.
+    // However, you lose the exhaustive checking that match enforces.
+    let mut count = 0;
+    let coin = CoinState::Quarter(UsState::Alaska);
+    match coin {
+        CoinState::Quarter(state) => println!("State quarter from {:?}!", state),
+        _ => count += 1,
+    }
+    
+    let mut count = 0;
+    let coin = CoinState::Quarter(UsState::Alaska);
+    match coin {
+        CoinState::Quarter(state) => println!("State quarter from {:?}!", state),
+        _ => count += 1,
+    }
+
+    // We can include an else with an if let. It works the same way as a match
+    let coin = CoinState::Quarter(UsState::Alaska);
+    if let CoinState::Quarter(state) = coin {
+        println!("State quarter from {:?}!", state);
+    } else {
+        count += 1;
+    }
