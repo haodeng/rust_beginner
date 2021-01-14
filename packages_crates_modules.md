@@ -45,3 +45,11 @@ Create a new library named restaurant by running "cargo new --lib restaurant", s
     }
 
 Modules can also hold definitions for other items, such as structs, enums, constants, traits, or functions.
+
+## Paths for Referring to an Item in the Module Tree
+If we want to call a function, we need to know its path.
+
+A path can take two forms:
+
+* An absolute path starts from a crate root by using a crate name or a literal crate.
+* A relative path starts from the current module and uses self, super, or an identifier in the current module.
