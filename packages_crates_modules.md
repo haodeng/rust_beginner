@@ -53,3 +53,24 @@ A path can take two forms:
 
 * An absolute path starts from a crate root by using a crate name or a literal crate.
 * A relative path starts from the current module and uses self, super, or an identifier in the current module.
+
+The way privacy works in Rust is that all items (functions, methods, structs, enums, modules, and constants) are private by default. Items in a parent module can’t use the private items inside child modules, but items in child modules can use the items in their ancestor modules.
+you can expose inner parts of child modules' code to outer ancestor modules by using the pub keyword to make an item public.
+
+    mod front_of_house {
+        // Moodule must be pub for eat_at_restaurant to call
+        pub mod hosting {
+            // function must be pub for eat_at_restaurant
+            pub fn add_to_waitlist() {}
+        }
+    }
+
+    pub fn eat_at_restaurant() {
+        // Absolute path
+        crate::front_of_house::hosting::add_to_waitlist();
+
+        // Relative path
+        front_of_house::hosting::add_to_waitlist();
+    }
+
+
