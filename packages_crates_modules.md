@@ -74,3 +74,94 @@ you can expose inner parts of child modules' code to outer ancestor modules by u
     }
 
 
+## Bringing Paths into Scope with the use Keyword
+Bring the crate::front_of_house::hosting module into the scope of the eat_at_restaurant function
+
+    mod front_of_house {
+        pub mod hosting {
+            pub fn add_to_waitlist() {}
+        }
+    }
+    
+    use crate::front_of_house::hosting;
+    
+    pub fn eat_at_restaurant() {
+        hosting::add_to_waitlist();
+        hosting::add_to_waitlist();
+        hosting::add_to_waitlist();
+        
+        //otherwise we have to call: crate::front_of_house::hosting::add_to_waitlist();
+    }
+
+You can also bring an item into scope with use and a relative path. 
+
+    use self::front_of_house::hosting;
+
+how to bring two Result types into scope that have the same name but different parent modules and how to refer to them.
+
+    // using the parent modules distinguishes the two Result types.
+    use std::fmt;
+    use std::io;
+    
+    fn function1() -> fmt::Result {
+        // --snip--
+    }
+    
+    fn function2() -> io::Result<()> {
+        // --snip--
+    }
+
+### Providing New Names with the as Keyword
+we can specify as and a new local name, or alias, for the type
+
+    use std::fmt::Result;
+    // won’t conflict with the Result from std::fmt that we’ve also brought into scope. 
+    use std::io::Result as IoResult;
+    
+    fn function1() -> Result {
+        // --snip--
+    }
+    
+    fn function2() -> IoResult<()> {
+        // --snip--
+    }
+    
+### Re-exporting Names with pub use
+When we bring a name into scope with the use keyword, the name available in the new scope is private. To enable the code that calls our code to refer to that name as if it had been defined in that code’s scope, we can combine pub and use.
+
+    mod front_of_house {
+        pub mod hosting {
+            pub fn add_to_waitlist() {}
+        }
+    }
+    
+    // By using pub use, external code can now call the add_to_waitlist function using hosting::add_to_waitlist. 
+    pub use crate::front_of_house::hosting;
+    
+    pub fn eat_at_restaurant() {
+        hosting::add_to_waitlist();
+        hosting::add_to_waitlist();
+        hosting::add_to_waitlist();
+    }
+    
+### Using Nested Paths to Clean Up Large use Lists
+In bigger programs, bringing many items into scope from the same crate or module using nested paths can reduce the number of separate use statements needed by a lot!
+
+    use std::cmp::Ordering;
+    use std::io;
+    
+    // use nested paths to bring the same items into scope in one line. 
+    use std::{cmp::Ordering, io};
+
+We can use a nested path at any level in a path, which is useful when combining two use statements that share a subpath.
+
+    use std::io;
+    use std::io::Write;
+    
+    // To merge these two paths into one use statement, we can use self in the nested path
+    use std::io::{self, Write};
+
+### The Glob Operator
+If we want to bring all public items defined in a path into scope, we can specify that path followed by *, the glob operator:
+
+    use std::collections::*;
