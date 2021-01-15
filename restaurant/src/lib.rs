@@ -73,3 +73,17 @@ pub fn eat_at_restaurant() {
     let order2 = back_of_house::Appetizer::Salad;
 }
 
+use crate::front_of_house::hosting;
+// We can also bring an item into scope with use and a relative path.
+//use self::front_of_house::hosting;
+
+// Re-exporting Names with pub use, external code can now call the add_to_waitlist function using hosting::add_to_waitlist.
+//pub use crate::front_of_house::hosting;
+
+// bring the crate::front_of_house::hosting module into the scope of the eat_at_restaurant2 function
+pub fn eat_at_restaurant2() {
+    hosting::add_to_waitlist();
+    hosting::add_to_waitlist();
+    hosting::add_to_waitlist();
+}
+
