@@ -30,3 +30,25 @@ When the vector gets dropped, all of its contents are also dropped, meaning thos
         // do stuff with v
     } // <- v goes out of scope and is freed here
 
+
+# Reading Elements of Vectors
+There are two ways to reference a value stored in a vector.
+First, we use the index value of 2 to get the third element: vectors are indexed by number, starting at zero. Second, the two ways to get the third element are by using & and [], which gives us a reference, or by using the get method with the index passed as an argument, which gives us an Option<&T>
+
+    let v = vec![1, 2, 3, 4, 5];
+
+    // gives us a reference
+    let third: &i32 = &v[2];
+    println!("The third element is {}", third);
+
+    // gives us an Option<&T>
+    match v.get(2) {
+        Some(third) => println!("The third element is {}", third),
+        None => println!("There is no third element."),
+    }
+    
+    //Wrong! cause the program to panic because it references a nonexistent element.
+    let does_not_exist = &v[100];
+    //Ok. it returns None without panicking. 
+    let does_not_exist = v.get(100);
+
