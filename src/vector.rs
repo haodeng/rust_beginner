@@ -5,6 +5,8 @@ fn main() {
     println!("{:?}", v);
 
     // It’s more common to create a Vec<T> that has initial values, and Rust provides the vec! macro for convenience.
+    // Because we’ve given initial i32 values,
+    // Rust can infer that the type of v is Vec<i32>, and the type annotation isn’t necessary.
     let v2 = vec![1, 2, 3];
     println!("{:?}", v2);
 
@@ -50,6 +52,9 @@ fn main() {
     let mut v = vec![1, 2, 3, 4, 5];
     v.push(6);
     println!("The six element is: {}", &v[5]);
+
+    // pop
+    println!("The last element is: {:?}", v.pop());
 
     // Iterating over the Values in a Vector
     let v = vec![100, 32, 57];
