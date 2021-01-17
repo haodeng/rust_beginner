@@ -52,3 +52,34 @@ First, we use the index value of 2 to get the third element: vectors are indexed
     //Ok. it returns None without panicking. 
     let does_not_exist = v.get(100);
 
+
+# terating over the Values in a Vector
+
+    let v = vec![100, 32, 57];
+    for i in &v {
+        println!("{}", i);
+    }
+    
+We can also iterate over mutable references to each element in a mutable vector in order to make changes to all the elements.
+
+    let mut v = vec![100, 32, 57];
+    for i in &mut v {
+        // To change the value that the mutable reference refers to, 
+        // we have to use the dereference operator (*) to get to the value in i before we can use the += operator. 
+        *i += 50;
+    }
+
+# Using an Enum to Store Multiple Types
+vectors can only store values that are the same type. This can be inconvenient; Fortunately, the variants of an enum are defined under the same enum type, so when we need to store elements of a different type in a vector, we can define and use an enum!
+
+    enum SpreadsheetCell {
+        Int(i32),
+        Float(f64),
+        Text(String),
+    }
+
+    let row = vec![
+        SpreadsheetCell::Int(3),
+        SpreadsheetCell::Text(String::from("blue")),
+        SpreadsheetCell::Float(10.12),
+    ];
