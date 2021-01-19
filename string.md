@@ -55,3 +55,16 @@ For more complicated string combining, we can use the format! macro:
     let s3 = String::from("toe");
 
     let s = format!("{}-{}-{}", s1, s2, s3);
+
+## Indexing into Strings
+If you try to access parts of a String using indexing syntax in Rust, you’ll get an error.
+
+    let s1 = String::from("hello");
+    // error[E0277]: the type `String` cannot be indexed by `{integer}`
+    let h = s1[0];
+
+    let hello = "Здравствуйте";
+    // error[E0277]: the type `String` cannot be indexed by `{integer}`
+    let answer = &hello[0];
+
+Rust strings don’t support indexing. 
