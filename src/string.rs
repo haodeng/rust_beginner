@@ -51,6 +51,52 @@ fn main() {
     // For more complicated string combining, we can use the format! macro
     let s = format!("{}-{}-{}", s1, s2, s3);
     println!("{}", s);
+
+    // If you try to access parts of a String using indexing syntax in Rust, you’ll get an error.
+    // Rust strings don’t support indexing.
+    let s1 = String::from("hello");
+    // error[E0277]: the type `String` cannot be indexed by `{integer}`
+    // let h = s1[0];
+
+    let hello = "Здравствуйте";
+    // error[E0277]: the type `String` cannot be indexed by `{integer}`
+    // let answer = &hello[0];
+
+    // Slicing Strings is ok
+    // use [] with a range to create a string slice containing particular bytes
+    let hello = "Здравствуйте";
+    // s will be a &str that contains the first 4 bytes of the string.
+    // each of these characters was 2 bytes, which means s will be Зд.
+    let s = &hello[0..4];
+    println!("{}", s);
+
+    // Rust would panic at runtime
+    // thread 'main' panicked at 'byte index 1 is not a char boundary;
+    // it is inside 'З' (bytes 0..2) of `Здравствуйте`', src/libcore/str/mod.rs:2069:5
+    // let s = &hello[0..1];
+    // You should use ranges to create string slices with caution, because doing so can crash your program.
+
+
+    iterate_string();
+}
+
+fn iterate_string() {
+    // If you need to perform operations on individual Unicode scalar values, the best way to do so is to use the chars method.
+    for c in "नमस्ते".chars() {
+        println!("{}", c);
+    }
+
+    // The bytes method returns each raw byte, which might be appropriate for your domain
+    for b in "नमस्ते".bytes() {
+        println!("{}", b);
+    }
+
+    for c in "你好".chars() {
+        println!("{}", c);
+    }
+    for b in "你好".bytes() {
+        println!("{}", b);
+    }
 }
 
 // strings are UTF-8 encoded. All of these are valid String values.
