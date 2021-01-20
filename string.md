@@ -68,3 +68,26 @@ If you try to access parts of a String using indexing syntax in Rust, you’ll g
     let answer = &hello[0];
 
 Rust strings don’t support indexing. 
+
+## Slicing Strings
+you can use [] with a range to create a string slice containing particular bytes
+
+    let hello = "Здравствуйте";
+    let s = &hello[0..4];
+s will be a &str that contains the first 4 bytes of the string. Earlier, we mentioned that each of these characters was 2 bytes, which means s will be Зд.
+What would happen if we used &hello[0..1]? The answer: Rust would panic at runtime
+You should use ranges to create string slices with caution, because doing so can crash your program.
+
+## Methods for Iterating Over Strings
+
+    // If you need to perform operations on individual Unicode scalar values, the best way to do so is to use the chars method.
+    for c in "नमस्ते".chars() {
+        println!("{}", c);
+    }
+    
+    // The bytes method returns each raw byte, which might be appropriate for your domain:
+    for b in "नमस्ते".bytes() {
+        println!("{}", b);
+    }
+    
+    
