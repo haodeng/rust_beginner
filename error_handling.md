@@ -42,3 +42,13 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
    Debug symbols are enabled by default when using cargo build or cargo run without the --release flag
   
     
+## Recoverable Errors with Result
+Most errors aren’t serious enough to require the program to stop entirely. Sometimes, when a function fails, it’s for a reason that you can easily interpret and respond to.
+
+the Result enum is defined as having two variants, Ok and Err, as follows:
+
+    enum Result<T, E> {
+        Ok(T),
+        Err(E),
+    }
+
