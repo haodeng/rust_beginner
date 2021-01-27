@@ -52,3 +52,19 @@ the Result enum is defined as having two variants, Ok and Err, as follows:
         Err(E),
     }
 
+T represents the type of the value that will be returned in a success case within the Ok variant, and E represents the type of the error that will be returned in a failure case within the Err variant.
+
+    use std::fs::File;
+
+    fn main() {
+        // return type of the File::open function is a Result<T, E>
+        // T has been filled in here with the type of the success value, std::fs::File, which is a file handle. 
+        // The type of E used in the error value is std::io::Error.
+        let f = File::open("hello.txt");
+        
+        let f = match f {
+            Ok(file) => file,
+            Err(error) => panic!("Problem opening the file: {:?}", error),
+        };
+    }
+    
