@@ -68,3 +68,46 @@ T represents the type of the value that will be returned in a success case withi
         };
     }
     
+
+## Matching on Different Errors
+
+    use std::fs::File;
+    use std::io::ErrorKind;
+
+    fn main() {
+        let f = File::open("hello.txt");
+
+        let f = match f {
+            Ok(file) => file,
+            Err(error) => match error.kind() {
+                ErrorKind::NotFound => match File::create("hello.txt") {
+                    Ok(fc) => fc,
+                    Err(e) => panic!("Problem creating the file: {:?}", e),
+                },
+                other_error => {
+                    panic!("Problem opening the file: {:?}", other_error)
+                }
+            },
+        };
+    }
+
+That’s a lot of match! The match expression is very useful but also very much a primitive.
+Improved version. Result<T, E> type has many methods that accept a closure and are implemented using match expressions.
+
+    use std::fs::File;
+    use std::io::ErrorKind;
+
+    fn main() {
+        let f = File::open("hello.txt").unwrap_or_else(|error| {
+            if error.kind() == ErrorKind::NotFound {
+                File::create("hello.txt").unwrap_or_else(|error| {
+                    panic!("Problem creating the file: {:?}", error);
+                })
+            } else {
+                panic!("Problem opening the file: {:?}", error);
+            }
+        });
+    }
+
+    
+    
