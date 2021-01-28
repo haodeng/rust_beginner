@@ -132,3 +132,65 @@ Another method, expect, which is similar to unwrap, lets us also choose the pani
         // thread 'main' panicked at 'Failed to open hello.txt: Error { repr: Os { code: 2, message: "No such file or directory" } }'
         let f = File::open("hello.txt").expect("Failed to open hello.txt");
     }
+
+## Propagating Errors
+When you’re writing a function whose implementation calls something that might fail, instead of handling the error within this function, you can return the error to the calling code so that it can decide what to do.
+
+    use std::fs::File;
+    use std::io;
+    use std::io::Read;
+
+    fn read_username_from_file() -> Result<String, io::Error> {
+        let f = File::open("hello.txt");
+
+        let mut f = match f {
+            Ok(file) => file,
+            Err(e) => return Err(e),
+        };
+
+        let mut s = String::new();
+
+        match f.read_to_string(&mut s) {
+            Ok(_) => Ok(s),
+            Err(e) => Err(e),
+        }
+    }
+
+A Shortcut for Propagating Errors: the ? Operator
+
+    use std::fs::File;
+    use std::io;
+    use std::io::Read;
+
+    fn read_username_from_file() -> Result<String, io::Error> {
+        //  If an error occurs, the ? operator will return early out of the whole function and give any Err value to the calling code.
+        let mut f = File::open("hello.txt")?;
+        let mut s = String::new();
+        f.read_to_string(&mut s)?;
+        Ok(s)
+    }
+
+The ? operator eliminates a lot of boilerplate and makes this function’s implementation simpler. 
+
+Chaining method calls after the ? operator
+
+    use std::fs::File;
+    use std::io;
+    use std::io::Read;
+
+    fn read_username_from_file() -> Result<String, io::Error> {
+        let mut s = String::new();
+        File::open("hello.txt")?.read_to_string(&mut s)?;
+        Ok(s)
+    }
+    
+A even short version
+
+    use std::fs;
+    use std::io;
+
+    fn read_username_from_file() -> Result<String, io::Error> {
+        fs::read_to_string("hello.txt")
+    }
+
+Reading a file into a string is a fairly common operation, so Rust provides the convenient fs::read_to_string function that opens the file, creates a new String, reads the contents of the file, puts the contents into that String, and returns it.
