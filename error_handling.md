@@ -77,6 +77,7 @@ T represents the type of the value that will be returned in a success case withi
     fn main() {
         let f = File::open("hello.txt");
 
+        // Lots of match, not concise
         let f = match f {
             Ok(file) => file,
             Err(error) => match error.kind() {
@@ -97,6 +98,7 @@ Improved version. Result<T, E> type has many methods that accept a closure and a
     use std::fs::File;
     use std::io::ErrorKind;
 
+    // unwrap_or_else use closure: a better version
     fn main() {
         let f = File::open("hello.txt").unwrap_or_else(|error| {
             if error.kind() == ErrorKind::NotFound {
@@ -110,4 +112,14 @@ Improved version. Result<T, E> type has many methods that accept a closure and a
     }
 
     
-    
+  ## Shortcuts for Panic on Error: unwrap and expect
+  If we run this code without a hello.txt file, we’ll see an error message from the panic! call that the unwrap method makes
+  
+    use std::fs::File;
+
+    fn main() {
+        // no hello.txt, we will see error message:
+        // thread 'main' panicked at 'called `Result::unwrap()` on an `Err` value: Error {repr: Os { code: 2, message: "No such file or directory" } }'
+        let f = File::open("hello.txt").unwrap();
+    }
+
