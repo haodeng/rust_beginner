@@ -123,3 +123,12 @@ Improved version. Result<T, E> type has many methods that accept a closure and a
         let f = File::open("hello.txt").unwrap();
     }
 
+Another method, expect, which is similar to unwrap, lets us also choose the panic! error message. 
+
+    use std::fs::File;
+
+    fn main() {
+        // Using expect instead of unwrap and providing good error messages can convey your intent and make tracking down the source of a panic easier. 
+        // thread 'main' panicked at 'Failed to open hello.txt: Error { repr: Os { code: 2, message: "No such file or directory" } }'
+        let f = File::open("hello.txt").expect("Failed to open hello.txt");
+    }
