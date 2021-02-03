@@ -168,3 +168,18 @@ functions with multiple generic type parameters can contain lots of trait bound 
         where T: Display + Clone,
             U: Clone + Debug
     {
+
+## Returning Types that Implement Traits
+
+    // use the impl Trait syntax in the return position to return a value of some type that implements a trait
+    fn returns_summarizable() -> impl Summary {
+        Tweet {
+            username: String::from("horse_ebooks"),
+            content: String::from(
+                "of course, as you probably already know, people",
+            ),
+            reply: false,
+            retweet: false,
+        }
+    }
+
