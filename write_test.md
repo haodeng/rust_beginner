@@ -90,3 +90,51 @@ We can also write tests that use Result<T, E>
             Err(String::from("two plus two does not equal four"))
         }
     }
+
+# Controlling How Tests Are Run
+
+    // compiles your code in test mode and runs the resulting test binary
+    cargo test 
+    
+    // displays the options you can use with cargo test
+    cargo test --help
+    
+    // displays the options you can use after the separator --.
+    cargo test -- --help 
+    
+## Running Tests in Parallel or Consecutively
+When you run multiple tests, by default they run in parallel using threads. 
+If you don’t want to run the tests in parallel or if you want more fine-grained control over the number of threads used, you can send the --test-threads flag and the number of threads you want to use to the test binary.
+
+    // 1, telling the program not to use any parallelism.
+    cargo test -- --test-threads=1
+    
+## Showing Function Output
+By default, if a test passes, Rust’s test library captures anything printed to standard output. If a test fails, we’ll see whatever was printed to standard output with the rest of the failure message.
+
+    // If we want to see printed values for passing tests as well, 
+    // we can tell Rust to also show the output of successful tests at the end with --show-output.
+    cargo test -- --show-output
+
+## Running a Subset of Tests by Name
+
+    // Running Single Tests by name
+    cargo test one_hundred
+    
+    // Filtering to Run Multiple Tests
+    // specify part of a test name, and any test whose name matches that value will be run
+    // ran all tests with add in the name and filtered out other tests
+    cargo test add
+    
+## Ignoring Some Tests Unless Specifically Requested
+
+    #[test]
+    // using the ignore attribute to exclude them
+    #[ignore]
+    fn expensive_test() {
+        // code that takes an hour to run
+    }
+
+If we want to run only the ignored tests, we can use
+
+    cargo test -- --ignored
