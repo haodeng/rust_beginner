@@ -63,7 +63,7 @@ mod tests {
     #[test]
     fn another() {
         // FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out
-        panic!("Make this test fail");
+        // panic!("Make this test fail");
     }
 
     #[test]
@@ -105,7 +105,7 @@ mod tests {
         let result = greeting("Carol");
         // thread 'tests::greeting_contains_name' panicked at 'Greeting did not contain name, value was `Hello Carol!`'
         assert!(
-            result.contains("Carolx"),
+            result.contains("Carol"),
             "Greeting did not contain name, value was `{}`",
             result
         );
