@@ -138,3 +138,77 @@ By default, if a test passes, Rust’s test library captures anything printed to
 If we want to run only the ignored tests, we can use
 
     cargo test -- --ignored
+
+# Test Organization
+The Rust community thinks about tests in terms of two main categories: unit tests and integration tests. 
+Unit tests are small and more focused, testing one module in isolation at a time, and can test private interfaces. 
+Integration tests are entirely external to your library and use your code in the same way any other external code would, using only the public interface and potentially exercising multiple modules per test.
+
+## Unit Tests
+The purpose of unit tests is to test each unit of code in isolation from the rest of the code to quickly pinpoint where code is and isn’t working as expected. You’ll put unit tests in the src directory in each file with the code that they’re testing. 
+The convention is to create a module named tests in each file to contain the test functions and to annotate the module with cfg(test).
+
+    pub fn add_two(a: i32) -> i32 {
+        internal_adder(a, 2)
+    }
+
+    fn internal_adder(a: i32, b: i32) -> i32 {
+        a + b
+    }
+
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+
+        // Testing Private Functions
+        #[test]
+        fn internal() {
+            assert_eq!(4, internal_adder(2, 2));
+        }
+        
+        #[test]
+        fn it_works() {
+            assert_eq!(2 + 2, 4);
+        }
+    }
+    
+The #[cfg(test)] annotation on the tests module tells Rust to compile and run the test code only when you run cargo test. This saves compile time when you only want to build the library and saves space in the resulting compiled artifact because the tests are not included. 
+You’ll see that because integration tests go in a different directory, they don’t need the #[cfg(test)] annotation. However, because unit tests go in the same files as the code, you’ll use #[cfg(test)] to specify that they shouldn’t be included in the compiled result.
+
+## Integration Tests
+In Rust, integration tests are entirely external to your library. 
+Their purpose is to test whether many parts of your library work together correctly. Units of code that work correctly on their own could have problems when integrated, so test coverage of the integrated code is important as well. 
+To create integration tests, you first need a tests directory.
+
+Filename: tests/integration_test.rs, We don’t need to annotate any code in tests/integration_test.rs with #[cfg(test)]. 
+
+    use adder;
+
+    #[test]
+    fn it_adds_two() {
+        assert_eq!(4, adder::add_two(2));
+    }
+    
+To run all the tests in a particular integration test file, use the --test argument
+
+    // This command runs only the tests in the tests/integration_test.rs file.
+    cargo test --test integration_test
+    
+## Submodules in Integration Tests
+Filename: tests/common/mod.rs.
+
+    pub fn setup() {
+        // setup code specific to your library's tests would go here
+    }
+
+Filename: tests/integration_test.rs
+
+    use adder;
+
+    mod common;
+
+    #[test]
+    fn it_adds_two() {
+        common::setup();
+        assert_eq!(4, adder::add_two(2));
+    }
