@@ -1,2 +1,6 @@
 /restaurant/target/
 /restaurant/Cargo.lock
+/src/unit_test1/target/
+/src/unit_test1/Cargo.lock
+/src/minigrep/target/
+/src/minigrep/Cargo.lock
