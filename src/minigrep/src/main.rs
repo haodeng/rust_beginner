@@ -17,7 +17,8 @@ fn main() {
     // However, if the value is an Err value, this method calls the code in the closure,
     // which is an anonymous function we define and pass as an argument to unwrap_or_else.
     let config = Config::new(&args).unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {}", err);
+        // eprintln! macro that prints to the standard error stream
+        eprintln!("Problem parsing arguments: {}", err);
         // stop the program immediately and return the number that was passed as the exit status code.
         process::exit(1);
     });
@@ -30,7 +31,7 @@ fn main() {
     // so we don’t need unwrap_or_else to return the unwrapped value because it would only be ().
     // The bodies of the if let and the unwrap_or_else functions are the same in both cases: we print the error and exit.
     if let Err(e) = minigrep::run(config) {
-        println!("Application error: {}", e);
+        eprintln!("Application error: {}", e);
 
         process::exit(1);
     }
