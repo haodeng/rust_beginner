@@ -61,3 +61,67 @@ Closure definitions will have one concrete type inferred for each of their param
     
 The first time we call example_closure with the String value, the compiler infers the type of x and the return type of the closure to be String. 
 Those types are then locked in to the closure in。
+
+
+## Storing Closures Using Generic Parameters and the Fn Traits
+To make a struct that holds a closure, we need to specify the type of the closure, because a struct definition needs to know the types of each of its fields. 
+The Fn traits are provided by the standard library. All closures implement at least one of the traits: Fn, FnMut, or FnOnce. 
+
+    // The trait bounds on T specify that it’s a closure by using the Fn trait. 
+    // Any closure we want to store in the calculation field must have one u32 parameter 
+    // (specified within the parentheses after Fn) and must return a u32 (specified after the ->).
+    struct Cacher<T>
+    where
+        T: Fn(u32) -> u32,
+    {
+        calculation: T,
+        value: Option<u32>,
+    }
+    
+  The struct will execute the closure only if we need the resulting value, and it will cache the resulting value so the rest of our code doesn’t have to be responsible for saving and reusing the result. You may know this pattern as memoization or lazy evaluation.
+  
+    impl<T> Cacher<T>
+    where
+        T: Fn(u32) -> u32,
+    {
+        fn new(calculation: T) -> Cacher<T> {
+            Cacher {
+                calculation,
+                value: None,
+            }
+        }
+
+        fn value(&mut self, arg: u32) -> u32 {
+            match self.value {
+                Some(v) => v,
+                None => {
+                    // the expensive calculation will be run a maximum of once.
+                    let v = (self.calculation)(arg);
+                    self.value = Some(v);
+                    v
+                }
+            }
+        }
+    }
+    
+    fn generate_workout(intensity: u32, random_number: u32) {
+        let mut expensive_result = Cacher::new(|num| {
+            println!("calculating slowly...");
+            thread::sleep(Duration::from_secs(2));
+            num
+        });
+
+        if intensity < 25 {
+            println!("Today, do {} pushups!", expensive_result.value(intensity));
+            println!("Next, do {} situps!", expensive_result.value(intensity));
+        } else {
+            if random_number == 3 {
+                println!("Take a break today! Remember to stay hydrated!");
+            } else {
+                println!(
+                    "Today, run for {} minutes!",
+                    expensive_result.value(intensity)
+                );
+            }
+        }
+    }
