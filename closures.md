@@ -158,3 +158,5 @@ When you create a closure, Rust infers which trait to use based on how the closu
 
 All closures implement FnOnce because they can all be called at least once. 
 Closures that don’t move the captured variables also implement FnMut, and closures that don’t need mutable access to the captured variables also implement Fn. 
+
+Most of the time when specifying one of the Fn trait bounds, you can start with Fn and the compiler will tell you if you need FnMut or FnOnce based on what happens in the closure body.
