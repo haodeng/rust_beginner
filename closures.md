@@ -125,3 +125,24 @@ The Fn traits are provided by the standard library. All closures implement at le
             }
         }
     }
+    
+  ## Capturing the Environment with Closures
+  closures have an additional capability that functions don’t have: they can capture their environment and access variables from the scope in which they’re defined.
+      
+      // Example of a closure that refers to a variable in its enclosing scope
+      fn main() {
+        let x = 4;
+
+        // the equal_to_x closure is allowed to use the x variable
+        let equal_to_x = |z| z == x;
+
+        let y = 4;
+
+        assert!(equal_to_x(y));
+        
+        // We can’t do the same with functions
+        fn equal_to_x(z: i32) -> bool {
+            // error[E0434]: can't capture dynamic environment in a fn item
+            z == x
+        }
+    }
