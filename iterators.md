@@ -37,3 +37,21 @@ The Iterator trait only requires implementors to define one method: the next met
     }
     
 Each call to next eats up an item from the iterator. We didn’t need to make v1_iter mutable when we used a for loop because the loop took ownership of v1_iter and made it mutable behind the scenes.
+
+
+## Methods that Consume the Iterator
+Methods that call next are called consuming adaptors, because calling them uses up the iterator. One example is the sum method
+
+    fn iterator_sum() {
+        let v1 = vec![1, 2, 3];
+
+        // We aren’t allowed to use v1_iter after the call to sum because sum takes ownership of the iterator we call it on.
+        let v1_iter = v1.iter();
+
+        // the sum method, which takes ownership of the iterator and iterates through 
+        // the items by repeatedly calling next, thus consuming the iterator. 
+        // As it iterates through, it adds each item to a running total and returns the total when iteration is complete.
+        let total: i32 = v1_iter.sum();
+
+        assert_eq!(total, 6);
+    }
