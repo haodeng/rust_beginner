@@ -136,4 +136,6 @@ take the values produced by an instance of Counter, pair them with values produc
         assert_eq!(18, sum);
     }
 
+zip produces only four pairs; the theoretical fifth pair (5, None) is never produced because zip returns None when either of its input iterators return None.
+
 
