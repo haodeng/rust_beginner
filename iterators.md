@@ -123,3 +123,17 @@ the only method you’re required to provide a definition for is the next method
         assert_eq!(counter.next(), Some(5));
         assert_eq!(counter.next(), None);
     }
+
+## Using Other Iterator Trait Methods
+take the values produced by an instance of Counter, pair them with values produced by another Counter instance after skipping the first value, multiply each pair together, keep only those results that are divisible by 3, and add all the resulting values together
+
+    fn using_other_iterator_trait_methods() {
+        let sum: u32 = Counter::new()
+            .zip(Counter::new().skip(1))
+            .map(|(a, b)| a * b)
+            .filter(|x| x % 3 == 0)
+            .sum();
+        assert_eq!(18, sum);
+    }
+
+
