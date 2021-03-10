@@ -24,3 +24,25 @@ When you’re ready to release your code, it’s best to spend more time compili
 You’ll only compile in release mode once, but you’ll run the compiled program many times, 
 so release mode trades longer compile time for code that runs faster. 
 That is why the default opt-level for the release profile is 3.
+
+# Publishing a Crate to Crates.io
+## Making Useful Documentation Comments
+Documentation comments use three slashes, ///, instead of two and support Markdown notation for formatting the text. Place documentation comments just before the item they’re documenting.
+
+    /// Adds one to the number given.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let arg = 5;
+    /// let answer = my_crate::add_one(arg);
+    ///
+    /// assert_eq!(6, answer);
+    /// ```
+    pub fn add_one(x: i32) -> i32 {
+        x + 1
+    }
+    
+We can generate the HTML documentation from this documentation comment by running cargo doc. This command runs the rustdoc tool distributed with Rust and puts the generated HTML documentation in the target/doc directory.
+
+For convenience, running cargo doc --open will build the HTML for your current crate’s documentation (as well as the documentation for all of your crate’s dependencies) and open the result in a web browser.
