@@ -46,3 +46,44 @@ Documentation comments use three slashes, ///, instead of two and support Markdo
 We can generate the HTML documentation from this documentation comment by running cargo doc. This command runs the rustdoc tool distributed with Rust and puts the generated HTML documentation in the target/doc directory.
 
 For convenience, running cargo doc --open will build the HTML for your current crate’s documentation (as well as the documentation for all of your crate’s dependencies) and open the result in a web browser.
+
+## Setting Up a Crates.io Account
+you need to create an account on crates.io and get an API token.
+    
+    cargo login abcdefghijklmnopqrstuvwxyz012345
+
+This command will inform Cargo of your API token and store it locally in ~/.cargo/credentials. Note that this token is a secret: do not share it with anyone else.
+
+## Adding Metadata to a New Crate
+Before publishing, you’ll need to add some metadata to your crate by adding it to the [package] section of the crate’s Cargo.toml file. Your crate will need a unique name. 
+Filename: Cargo.toml
+
+    [package]
+    name = "a unique namee"
+    version = "0.1.0"
+    authors = ["Your Name <you@example.com>"]
+    edition = "2018"
+    description = "A fun game where you guess what number the computer has chosen."
+    license = "MIT OR Apache-2.0"
+
+## Publishing to Crates.io
+Publishing a crate uploads a specific version to crates.io for others to use. Run:
+
+    cargo publish
+
+## Publishing a New Version of an Existing Crate
+you change the version value specified in your Cargo.toml file and republish by running "cargo publish"
+
+## Removing Versions from Crates.io with cargo yank
+Although you can’t remove previous versions of a crate, you can prevent any future projects from adding them as a new dependency. This is useful when a crate version is broken for one reason or another. In such situations, Cargo supports yanking a crate version.
+
+To yank a version of a crate, run cargo yank and specify which version you want to yank:
+
+    $ cargo yank --vers 1.0.1
+    
+By adding --undo to the command, you can also undo a yank and allow projects to start depending on a version again:
+
+    $ cargo yank --vers 1.0.1 --undo
+    
+A yank does not delete any code
+    
