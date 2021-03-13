@@ -5,3 +5,5 @@
 /src/minigrep/target/
 /src/minigrep/Cargo.lock
 /src/minigrep2/target/
+/src/workspace_demo/target/
+/src/workspace_demo/Cargo.lock
