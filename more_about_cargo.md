@@ -87,3 +87,70 @@ By adding --undo to the command, you can also undo a yank and allow projects to 
     
 A yank does not delete any code
     
+# Cargo Workspaces
+## Creating a Workspace
+A workspace is a set of packages that share the same Cargo.lock and output directory.
+    
+    mkdir add
+    cd add
+    
+Next, in the add directory, we create the Cargo.toml file that will configure the entire workspace. 
+This file won’t have a [package] section or the metadata we’ve seen in other Cargo.toml files. Instead, it will start with a [workspace] section that will allow us to add members to the workspace by specifying the path to the package with our binary crate;
+
+Filename: Cargo.toml
+
+    [workspace]
+
+    members = [
+        "adder",
+        "add-one",
+    ]
+
+we’ll create the adder binary crate by running cargo new within the add directory. Then generate a new library crate named add-one
+
+    cargo new adder
+    cargo new add-one --lib
+    
+Your add directory should now have these directories and files:
+
+    ├── Cargo.lock
+    ├── Cargo.toml
+    ├── add-one
+    │   ├── Cargo.toml
+    │   └── src
+    │       └── lib.rs
+    ├── adder
+    │   ├── Cargo.toml
+    │   └── src
+    │       └── main.rs
+    └── target
+    
+In the add-one/src/lib.rs file, let’s add an add_one function:
+
+Filename: add-one/src/lib.rs
+
+    pub fn add_one(x: i32) -> i32 {
+        x + 1
+    }
+
+Cargo doesn’t assume that crates in a workspace will depend on each other, so we need to be explicit about the dependency relationships between the crates.
+
+Filename: adder/Cargo.toml
+
+    [dependencies]
+    add-one = { path = "../add-one" }
+
+Filename: adder/src/main.rs
+add a use line at the top to bring the new add-one library crate into scope.
+
+    // bring the new add-one library crate into scope.
+    use add_one;
+
+    fn main() {
+        let num = 10;
+        println!(
+            "Hello, world! {} plus one is {}!",
+            num,
+            add_one::add_one(num)
+        );
+    }
