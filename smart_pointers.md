@@ -19,8 +19,12 @@ Boxes don’t have performance overhead, other than storing their data on the he
 ### Using a Box<T> to Store Data on the Heap
 We define the variable b to have the value of a Box that points to the value 5, which is allocated on the heap. 
   
-  fn main() {
-      let b = Box::new(5);
-      println!("b = {}", b);
-  }
+    fn main() {
+        let b = Box::new(5);
+        println!("b = {}", b);
+    }
+
+Just like any owned value, when a box goes out of scope, as b does at the end of main, it will be deallocated. The deallocation happens for the box (stored on the stack) and the data it points to (stored on the heap).
+
+Putting a single value on the heap isn’t very useful, so you won’t use boxes by themselves in this way very often. Having values like a single i32 on the stack, where they’re stored by default, is more appropriate in the majority of situations. 
   
